@@ -2,30 +2,37 @@
    This code, outside of main, retrieved from
    http://cypherpunks.venona.com/archive/1994/09/msg00304.html  */
 #include "rc4.h"
+#include <stdio.h>
+#include <string.h>
 
-void main()
+int main()
 {
    rc4_key key;                                             //initialize a key
    
    unsigned char state[256];                                //create a key
    printf("Please enter a key: ");                          //prompt
-   receiveInput(state);                                     //input the key (testing)
+   scanf("%hhu", state);                                     //input the key (testing)
+   //state = Key;
    printf("\n");                                            //newline after prompt
-   key.state = state;                                       //set the key structs state
-   length = strlen(state);                                  //set the length of the key
-   printf("Your key is %s, length is %d\n", state, length); //print testing
+   //key.state = state;                                       //set the key structs state
+   int length = 0;
+   length = strlen((char*)state);                                  //set the length of the key
+   memcpy(key.state, state, length);
+   printf("Your key is %hhu, length is %d\n", key.state, length); //print testing
    
-   prepare_key(*key.state, length, *key);                   //pass the params to prepare_key
-   printf("Your key stream is %s\n”, state");               //print testing
+   prepare_key(key.state, length, &key);                   //pass the params to prepare_key
+   printf("Your key stream is %hhu\n", state);               //print testing
    
    unsigned char plntxt[50];                                //create a plaintext message
    printf("Please enter a message to encrypt: ");           //prompt
-   receiveInput(plntxt);                                    //input the plaintext message
-   printf("/n");                                            //newline after prompt
+   scanf("%hhu", plntxt);                                    //input the plaintext message
+   printf("\n");                                            //newline after prompt
    printf("Your message to encrypt is %s\n", plntxt);       //print testing
-   plntxtLen = strlen(plntxt);                              //get the message length
+   int plntxtLen = 0;
+   plntxtLen = strlen((char*)plntxt);                              //get the message length
    
-   rc4(*plntxt, plntxtLen, *key);                           //encrypt the things
+   rc4(plntxt, plntxtLen, &key);                           //encrypt the things
+   return 0;
 }
 
 
@@ -36,7 +43,7 @@ static void swap_byte(unsigned char *a, unsigned char *b);
 void prepare_key(unsigned char *key_data_ptr, int key_data_len,
 rc4_key *key)
 {
-     unsigned char swapByte;
+    // unsigned char swapByte;
      unsigned char index1;
      unsigned char index2;
      unsigned char* state;
