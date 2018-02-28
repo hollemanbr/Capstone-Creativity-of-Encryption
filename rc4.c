@@ -9,23 +9,22 @@ int main()
 {
    rc4_key key;                                             //initialize a key
    
-   unsigned char state[256];                                //create a key
+   char state[256];                                //create a key
    printf("Please enter a key: ");                          //prompt
-   scanf("%hhu", state);                                     //input the key (testing)
-   //state = Key;
+   scanf("%s", state);                                     //input the key (testing)
    printf("\n");                                            //newline after prompt
-   //key.state = state;                                       //set the key structs state
+   //key.state = (unsigned char *)state;                                       //set the key structs state
    int length = 0;
-   length = strlen((char*)state);                                  //set the length of the key
-   memcpy(key.state, state, length);
-   printf("Your key is %hhu, length is %d\n", key.state, length); //print testing
+   length = strlen(state);                                  //set the length of the key
+   memcpy(key.state,state, 256);
+   printf("Your key is %s, length is %d\n", state, length); //print testing
    
    prepare_key(key.state, length, &key);                   //pass the params to prepare_key
-   printf("Your key stream is %hhu\n", state);               //print testing
+   printf("Your key stream is %hhu\n", key.state);               //print testing
    
-   unsigned char plntxt[50];                                //create a plaintext message
+   char plntxt[50];                                //create a plaintext message
    printf("Please enter a message to encrypt: ");           //prompt
-   scanf("%hhu", plntxt);                                    //input the plaintext message
+   scanf("%s", plntxt);                                    //input the plaintext message
    printf("\n");                                            //newline after prompt
    printf("Your message to encrypt is %s\n", plntxt);       //print testing
    int plntxtLen = 0;
