@@ -5,27 +5,27 @@
 
 void main()
 {
-   rc4_key key;                                             \\initialize a key
+   rc4_key key;                                             //initialize a key
    
-   unsigned char state[256];                                \\create a key
-   printf("Please enter a key: ");                          \\prompt
-   receiveInput(state);                                     \\input the key (testing)
-   printf("\n");                                            \\newline after prompt
-   key.state = state;                                       \\set the key structs state
-   length = strlen(state);                                  \\set the length of the key
-   printf("Your key is %s, length is %d\n", state, length); \\print testing
+   unsigned char state[256];                                //create a key
+   printf("Please enter a key: ");                          //prompt
+   receiveInput(state);                                     //input the key (testing)
+   printf("\n");                                            //newline after prompt
+   key.state = state;                                       //set the key structs state
+   length = strlen(state);                                  //set the length of the key
+   printf("Your key is %s, length is %d\n", state, length); //print testing
    
-   prepare_key(*key.state, length, *key);                   \\pass the params to prepare_key
-   printf("Your key stream is %s\n”, state");               \\print testing
+   prepare_key(*key.state, length, *key);                   //pass the params to prepare_key
+   printf("Your key stream is %s\n”, state");               //print testing
    
-   unsigned char plntxt[50];                                \\create a plaintext message
-   printf("Please enter a message to encrypt: ");           \\prompt
-   receiveInput(plntxt);                                    \\input the plaintext message
-   printf("/n");                                            \\newline after prompt
-   printf("Your message to encrypt is %s\n", plntxt);       \\print testing
-   plntxtLen = strlen(plntxt);                              \\get the message length
+   unsigned char plntxt[50];                                //create a plaintext message
+   printf("Please enter a message to encrypt: ");           //prompt
+   receiveInput(plntxt);                                    //input the plaintext message
+   printf("/n");                                            //newline after prompt
+   printf("Your message to encrypt is %s\n", plntxt);       //print testing
+   plntxtLen = strlen(plntxt);                              //get the message length
    
-   rc4(*plntxt, plntxtLen, *key);                           \\encrypt the things
+   rc4(*plntxt, plntxtLen, *key);                           //encrypt the things
 }
 
 
