@@ -11,12 +11,14 @@
 
 #define N 256 //2^8
 
+//Swap bytes
 void swap(unsigned char *a, unsigned char *b) {
     int tmp = *a;
     *a = *b;
     *b = tmp;
 }
 
+//Key scheduling algorithm
 int KSA(char *key, unsigned char *S) {
     int len = strlen(key);
     int j = 0;
@@ -32,6 +34,7 @@ int KSA(char *key, unsigned char *S) {
     return 0;
 }
 
+//Pseudo-random generation algorithm
 int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) { 
     int i = 0;
     int j = 0;
@@ -47,6 +50,7 @@ int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) {
     return 0;
 }
 
+//Performs encryption process
 int RC4(char *key, char *plaintext, unsigned char *ciphertext) {
     unsigned char S[N];
     KSA(key, S);
@@ -54,6 +58,7 @@ int RC4(char *key, char *plaintext, unsigned char *ciphertext) {
     return 0;
 }
 
+//Main function
 int main(int argc, char *argv[]) {
     if(argc < 3) {
         printf("Usage: %s <key> <plaintext>", argv[0]);
