@@ -24,11 +24,13 @@ int KSA(char *key, unsigned char *S) {
     int len = strlen(key);
     int j = 0;
     
-    for(int i = 0; i < N; i++) {
-        S[i] = i;
+    int x;
+    for(x = 0; x < N; x++) {
+        S[x] = x;
     }
 
-    for(int i = 0; i < N; i++) {
+    int i;
+    for(i = 0; i < N; i++) {
         j = (j + S[i] + key[i % len]) % N;
         swap(&S[i], &S[j]);
     }
@@ -39,8 +41,9 @@ int KSA(char *key, unsigned char *S) {
 int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) { 
     int i = 0;
     int j = 0;
-    
-    for(size_t n = 0, len = strlen(plaintext); n < len; n++) {        
+    int len; 
+    size_t n;   
+    for(n = 0, len = strlen(plaintext); n < len; n++) {        
         i = (i + 1) % N;
         j = (j + S[i] + S[j]) % N;
         swap(&S[i], &S[j]);
@@ -70,9 +73,12 @@ int main(int argc, char *argv[]) {
 
     RC4(argv[1], argv[2], ciphertext);
 
-    for(size_t i = 0, len = strlen(argv[2]); i < len; i++) {
+    size_t i;
+    int len;
+    for(i = 0, len = strlen(argv[2]); i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
+    printf("\n");
     return 0;
 }
 
