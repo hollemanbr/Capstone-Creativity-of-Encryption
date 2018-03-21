@@ -34,6 +34,13 @@ int KSA(char *key, unsigned char *S) {
         j = (j + S[i] + key[i % len]) % N;
         swap(&S[i], &S[j]);
     }
+    //added
+    printf("KeyStream: ");
+    for(i = 0; i < N; i++) {
+        printf("%02hhx", S[i]);
+    }
+    printf("\n");
+
     return 0;
 }
 
@@ -75,6 +82,7 @@ int main(int argc, char *argv[]) {
 
     size_t i;
     int len;
+    printf("CypherText: ");
     for(i = 0, len = strlen(argv[2]); i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
