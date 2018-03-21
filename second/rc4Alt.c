@@ -62,8 +62,8 @@ int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) {
 }
 
 //Performs encryption process
-int RC4(char *key, char *plaintext, unsigned char *ciphertext) {
-    unsigned char S[N];
+int RC4(char *key, char *plaintext, unsigned char *ciphertext, unsigned char *S) {
+   //unsigned char S[N];
     KSA(key, S);
     PRGA(S, plaintext, ciphertext);
     return 0;
@@ -78,13 +78,36 @@ int main(int argc, char *argv[]) {
 
     unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
 
-    RC4(argv[1], argv[2], ciphertext);
+    //added
+    unsigned char S[N];
+    unsigned char *plaintext = malloc(sizeof(int) * strlen(argv[2]));
+
+    RC4(argv[1], argv[2], ciphertext, S);
 
     size_t i;
     int len;
     printf("CypherText: ");
     for(i = 0, len = strlen(argv[2]); i < len; i++) {
         printf("%02hhx", ciphertext[i]);
+    }
+    printf("\n");
+    //added
+    printf("Decrypted : ");
+    int a = 0;
+    int b = 0;
+    int leng;
+    size_t n;
+    for(n = 0, leng = strlen(ciphertext); n < leng; n++)
+    {
+        a = (a + 1) % N;
+        b = (b + S[a] + S[b]) % N;
+        swap(&S[a], &S[b]);
+        int rnd = S[(S[a] + S[b]) % N];
+
+         plaintext[n] = rnd ^ ciphertext[n];
+    }
+    for(i = 0, len = strlen(argv[2]); i < len; i++) {
+        printf("%02hhx", argv[2]);
     }
     printf("\n");
     return 0;
