@@ -14,6 +14,7 @@
 
 //Swap bytes
 void swap(unsigned char *a, unsigned char *b) {
+    //Change to a unsigned char instead of an int
     int tmp = *a;
     *a = *b;
     *b = tmp;
@@ -46,12 +47,15 @@ int KSA(char *key, unsigned char *S) {
 
 //Pseudo-random generation algorithm
 int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) { 
+    //Change to unsigned chars (i, j)
     int i = 0;
     int j = 0;
     int len; 
     size_t n;   
     for(n = 0, len = strlen(plaintext); n < len; n++) {        
         i = (i + 1) % N;
+        //replace 59 with
+        //j = (j + S[i]) % N;
         j = (j + S[i] + S[j]) % N;
         swap(&S[i], &S[j]);
         int rnd = S[(S[i] + S[j]) % N];
