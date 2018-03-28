@@ -14,8 +14,7 @@
 
 //Swap bytes
 void swap(unsigned char *a, unsigned char *b) {
-    //Change to a unsigned char instead of an int
-    int tmp = *a;
+    unsigned char tmp = *a;
     *a = *b;
     *b = tmp;
 }
@@ -35,31 +34,28 @@ int KSA(char *key, unsigned char *S) {
         j = (j + S[i] + key[i % len]) % N;
         swap(&S[i], &S[j]);
     }
+    /*
     //added
     printf("KeyStream: ");
     for(i = 0; i < N; i++) {
         printf("%02hhx", S[i]);
     }
     printf("\n");
-
+    */
     return 0;
 }
 
 //Pseudo-random generation algorithm
 int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) { 
-    //Change to unsigned chars (i, j)
-    int i = 0;
-    int j = 0;
+    unsigned char i = 0;
+    unsigned char j = 0;
     int len; 
     size_t n;   
     for(n = 0, len = strlen(plaintext); n < len; n++) {        
         i = (i + 1) % N;
-        //replace 59 with
-        //j = (j + S[i]) % N;
-        j = (j + S[i] + S[j]) % N;
+        j = (j + S[i]) % N;
         swap(&S[i], &S[j]);
-        int rnd = S[(S[i] + S[j]) % N];
-        
+        unsigned char rnd = S[(S[i] + S[j]) % N]; 
         ciphertext[n] = rnd ^ plaintext[n];
     }
     return 0;
@@ -79,7 +75,18 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s <key> <plaintext>", argv[0]);
         return -1;
     }
-
+    //Concatinate arguments if more than one word.
+    /*
+    if(argc > 3) {
+        int l;
+        for(l = 0, l <= argc, l++){
+            
+        }
+        printf("argv[2]: %s \n", argv[2]);
+        printf("argv[3]: %s \n", argv[3]);
+        printf("argv[4]: %s \n", argv[4]);
+    }
+    */
     unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
 
     //added
@@ -90,11 +97,14 @@ int main(int argc, char *argv[]) {
 
     size_t i;
     int len;
+    printf("Key: %s\n", argv[1]);
+    printf("PlainText: %s\n", argv[2]);
     printf("CypherText: ");
     for(i = 0, len = strlen(argv[2]); i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
     printf("\n");
+    /*
     //added
     printf("Decrypted : ");
     int a = 0;
@@ -114,6 +124,7 @@ int main(int argc, char *argv[]) {
         printf("%02hhx", argv[2]);
     }
     printf("\n");
+    */
     return 0;
 }
 
