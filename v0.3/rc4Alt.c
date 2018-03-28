@@ -12,6 +12,9 @@
 
 #define N 256 //2^8
 
+//added
+int lengthOfStr;
+
 //Swap bytes
 void swap(unsigned char *a, unsigned char *b) {
     unsigned char tmp = *a;
@@ -34,14 +37,12 @@ int KSA(char *key, unsigned char *S) {
         j = (j + S[i] + key[i % len]) % N;
         swap(&S[i], &S[j]);
     }
-    /*
     //added
     printf("KeyStream: ");
     for(i = 0; i < N; i++) {
         printf("%02hhx", S[i]);
     }
     printf("\n");
-    */
     return 0;
 }
 
@@ -50,14 +51,28 @@ int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) {
     unsigned char i = 0;
     unsigned char j = 0;
     int len; 
-    size_t n;   
+    size_t n; 
+    //added
+    unsigned char *decryptedtext = malloc(sizeof(int) * lengthOfStr);
+
     for(n = 0, len = strlen(plaintext); n < len; n++) {        
         i = (i + 1) % N;
         j = (j + S[i]) % N;
         swap(&S[i], &S[j]);
         unsigned char rnd = S[(S[i] + S[j]) % N]; 
         ciphertext[n] = rnd ^ plaintext[n];
+        //added
+        decryptedtext[n] = rnd ^ ciphertext[n];
     }
+    //added
+    int dl;
+    int lendl;
+    printf("Decrypted text: ");
+    for(dl = 0, lendl = lengthOfStr; dl < lendl; dl++)
+    {
+        printf("%02hhx", decryptedtext[dl]);
+    }
+    printf("\n");
     return 0;
 }
 
@@ -93,6 +108,9 @@ int main(int argc, char *argv[]) {
     unsigned char S[N];
     unsigned char *plaintext = malloc(sizeof(int) * strlen(argv[2]));
 
+    //added
+    lengthOfStr = strlen(argv[2]);
+
     RC4(argv[1], argv[2], ciphertext, S);
 
     size_t i;
@@ -104,27 +122,34 @@ int main(int argc, char *argv[]) {
         printf("%02hhx", ciphertext[i]);
     }
     printf("\n");
-    /*
     //added
     printf("Decrypted : ");
-    int a = 0;
-    int b = 0;
+    unsigned char a = 0;
+    unsigned char b = 0;
     int leng;
     size_t n;
+    /*
     for(n = 0, leng = strlen(ciphertext); n < leng; n++)
     {
         a = (a + 1) % N;
         b = (b + S[a] + S[b]) % N;
         swap(&S[a], &S[b]);
-        int rnd = S[(S[a] + S[b]) % N];
-
-         plaintext[n] = rnd ^ ciphertext[n];
+        unsigned char rnd = S[(S[a] + S[b]) % N];
+        plaintext[n] = rnd ^ ciphertext[n];
+    }
+    */
+    for(n = 0, leng = strlen(ciphertext); n < leng; n++)
+    {
+        b = (a + 1) % N;
+        a = (b + S[a] + S[b]) % N;
+        swap(&S[a], &S[b]);
+        unsigned char rnd = S[(S[a] + S[b]) % N];
+        plaintext[n] = rnd ^ ciphertext[n];
     }
     for(i = 0, len = strlen(argv[2]); i < len; i++) {
-        printf("%02hhx", argv[2]);
+        printf("%02hhx", plaintext[i]);
     }
     printf("\n");
-    */
     return 0;
 }
 
