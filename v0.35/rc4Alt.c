@@ -1,5 +1,5 @@
 /*
- * Author: Benjamin Holleman
+ * Author:  Benjamin Holleman
  *
  * Used RC4.c by Robin Verton as reference
  * https://gist.github.com/rverton/a44fc8ca67ab9ec32089 
