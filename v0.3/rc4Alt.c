@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     */
     unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
 
-    //adde d
+    //added
     unsigned char S[N];
     unsigned char *plaintext = malloc(sizeof(int) * strlen(argv[2]));
 
