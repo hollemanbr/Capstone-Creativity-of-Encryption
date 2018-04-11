@@ -85,18 +85,6 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s <key> <plaintext>", argv[0]);
         return -1;
     }
-    //Concatinate arguments if more than one word.
-    /*
-    if(argc > 3) {
-        int l;
-        for(l = 0, l <= argc, l++){
-            
-        }
-        printf("argv[2]: %s \n", argv[2]);
-        printf("argv[3]: %s \n", argv[3]);
-        printf("argv[4]: %s \n", argv[4]);
-    }
-    */
     unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
 
     //added
@@ -123,11 +111,10 @@ int main(int argc, char *argv[]) {
     unsigned char a = 0;
     unsigned char b = 0;
     int leng;
-    printf("Decrypted : ");
+    printf("Decrypted:      ");
     for(i = 0, len = strlen(argv[2]); i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
     printf("\n");
     return 0;
 }
-
