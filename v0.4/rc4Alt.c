@@ -1,5 +1,11 @@
 /*
- * Author:  Benjamin Holleman
+ * Author:  Benjamin Holleman & Richard Winzenried
+ *
+ * Used RC4 article on Wikipedia
+ * https://en.wikipedia.org/wiki/RC4
+ *
+ * Used RC4 source code as reference
+ * http://cypherpunks.venona.com/archive/1994/09/msg00304.html
  *
  * Used RC4.c by Robin Verton as reference
  * https://gist.github.com/rverton/a44fc8ca67ab9ec32089 
