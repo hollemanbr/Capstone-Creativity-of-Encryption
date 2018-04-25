@@ -98,9 +98,8 @@ int main(int argc, char *argv[]) {
 
     //added
     lengthOfStr = strlen(argv[2]);
-
     RC4(argv[1], argv[2], ciphertext, S);
-
+    
     size_t i;
     int len;
     printf("Key: %s\n", argv[1]);
