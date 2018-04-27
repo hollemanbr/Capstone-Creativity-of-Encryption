@@ -116,6 +116,7 @@ int RC4(char *key, char *plaintext, unsigned char *ciphertext, unsigned char *S)
 
 //Main function
 int main(int argc, char *argv[]) {
+    printf("\n");
     if(argc < 3) {
         printf("Usage: %s <key> <plaintext> <decrypt(only put here to decrypt)>\n", argv[0]);
         return -1;
@@ -131,14 +132,17 @@ int main(int argc, char *argv[]) {
 
     lengthOfStr = strlen(argv[2]);
     int printLen;
+    int outputStyle;
     if(argc >= 4){
         printLen = strlen(argv[2]) / 2;
         stringToBytes(argv[2], newVal);
         RC4(argv[1], newVal, ciphertext, S);
+        outputStyle =  1;
     }
     else{
         printLen = strlen(argv[2]);
         RC4(argv[1], argv[2], ciphertext, S);
+        outputStyle = 0;
     }
     
     size_t i;
@@ -147,7 +151,12 @@ int main(int argc, char *argv[]) {
     printf("Input Text:  %s\n", argv[2]);
     printf("Output Text: ");
     for(i = 0, len = printLen; i < len; i++) {
-        printf("%02hhx", ciphertext[i]);
+        if(outputStyle == 0) {
+            printf("%02hhx", ciphertext[i]);
+        }
+        else if(outputStyle == 1) {
+            printf("%c", ciphertext[i]);
+        }
     }
     printf("\n");
     
@@ -163,5 +172,6 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
     */
+    printf("\n");
     return 0;
 }
