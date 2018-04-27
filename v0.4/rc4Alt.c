@@ -8,7 +8,10 @@
  * http://cypherpunks.venona.com/archive/1994/09/msg00304.html
  *
  * Used RC4.c by Robin Verton as reference
- * https://gist.github.com/rverton/a44fc8ca67ab9ec32089 
+ * https://gist.github.com/rverton/a44fc8ca67ab9ec32089
+ *
+ * Used answer from sg7 to fix decryption issues
+ * https://stackoverflow.com/questions/6933039/convert-two-ascii-hexadecimal-characters-two-ascii-bytes-in-one-byte
  */
 
 #include <stdio.h>
@@ -20,6 +23,31 @@
 //added
 int lengthOfStr;
 unsigned char K[N];
+
+//added
+unsigned char charToHexDigit(char c) {
+    if(c >= 'a')
+        return (c - 'a' + 10);
+    else
+        return (c - '0');
+}
+
+unsigned char ascii2HexToByte(unsigned char *ptr) {
+    return charToHexDigit(*ptr) * 16 + charToHexDigit(*(ptr+1));
+}
+
+int stringToBytes(unsigned char *original, unsigned char *new) {
+    int k = 0;
+    int strLen = strlen(original);
+    int i;
+    for(i = 0; i < strLen; i = i + 2)
+    {
+        new[k] = ascii2HexToByte(&original[i]);
+        k++;
+    }
+    return k;
+}
+
 
 //Swap bytes
 void swap(unsigned char *a, unsigned char *b) {
@@ -67,12 +95,14 @@ int PRGA(unsigned char *S, char *plaintext, unsigned char *ciphertext) {
     //added
     int dl;
     int lendl;
+    /*
     printf("Decrypted text: ");
     for(dl = 0, lendl = lengthOfStr; dl < lendl; dl++)
     {
         printf("%02hhx", decryptedtext[dl]);
     }
     printf("\n");
+    */
     return 0;
 }
 
@@ -87,38 +117,51 @@ int RC4(char *key, char *plaintext, unsigned char *ciphertext, unsigned char *S)
 //Main function
 int main(int argc, char *argv[]) {
     if(argc < 3) {
-        printf("Usage: %s <key> <plaintext>", argv[0]);
+        printf("Usage: %s <key> <plaintext> <decrypt(only put here to decrypt)>\n", argv[0]);
         return -1;
     }
     unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
+    
+    //new for convert
+    unsigned char *newVal = (malloc(sizeof(int) * (strlen(argv[2]) / 2)));
 
     //added
     unsigned char S[N];
     unsigned char *plaintext = malloc(sizeof(int) * strlen(argv[2]));
 
-    //added
     lengthOfStr = strlen(argv[2]);
-    RC4(argv[1], argv[2], ciphertext, S);
+    int printLen;
+    if(argc >= 4){
+        printLen = strlen(argv[2]) / 2;
+        stringToBytes(argv[2], newVal);
+        RC4(argv[1], newVal, ciphertext, S);
+    }
+    else{
+        printLen = strlen(argv[2]);
+        RC4(argv[1], argv[2], ciphertext, S);
+    }
     
     size_t i;
     int len;
     printf("Key: %s\n", argv[1]);
-    printf("PlainText: %s\n", argv[2]);
-    printf("CipherText: ");
-    for(i = 0, len = strlen(argv[2]); i < len; i++) {
+    printf("Input Text:  %s\n", argv[2]);
+    printf("Output Text: ");
+    for(i = 0, len = printLen; i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
     printf("\n");
     
+    /*
     RC4(argv[1], ciphertext, ciphertext, S);
 
     unsigned char a = 0;
     unsigned char b = 0;
     int leng;
     printf("Decrypted:      ");
-    for(i = 0, len = strlen(argv[2]); i < len; i++) {
+    for(i = 0, len = printLen; i < len; i++) {
         printf("%02hhx", ciphertext[i]);
     }
     printf("\n");
+    */
     return 0;
 }
