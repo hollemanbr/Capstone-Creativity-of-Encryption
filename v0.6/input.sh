@@ -1,5 +1,9 @@
 #!/bin/bash
-echo Please ensure your file is in the same directory
-read -p 'Please enter a file name: ' filevar
-cp $filevar $filevar.txt
-rc4Test Key $filevar.txt
+echo RC4 Plaintext Encryption\n
+read -p 'Please enter a key: ' key
+echo 
+read -p 'Please enter a word or phrase: ' filevar
+echo
+read -p 'Is this decryption (y for yes or leave blank if no)' decrypt
+echo
+./rc4Test $key $filevar $decrypt
