@@ -115,80 +115,30 @@ int main(int argc, char *argv[]) {
     }
 
     //File reading
-    FILE *stream;
-    unsigned char *contents;
+    FILE *readFile;
+    unsigned char *dataFromFile;
     int fileSizeA = 0;
     int fileSize = 0;
     
-    /*
-    stream = fopen(argv[2], "rb");
 
-    fseek(stream, 0L, SEEK_END);
-    fileSize = ftell(stream);
-    fseek(stream, 0L, SEEK_SET);
+    readFile = fopen(argv[2], "rb");
 
-    contents = malloc(fileSize);
-
-    size_t size = fread(contents, 1, fileSize, stream);
-    contents[size] = 0;
-
-    printf("%s\n", contents);
-
-    fclose(stream);
-    */
-
-    stream = fopen(argv[2], "rb");
-
-    while(fgetc(stream) != EOF){
+    while(fgetc(readFile) != EOF){
         fileSize++;
     }
 
-    fseek(stream, 0L, SEEK_END);
-    fileSize = ftell(stream);
-    fseek(stream, 0L, SEEK_SET);
+    fseek(readFile, 0L, SEEK_END);
+    fileSize = ftell(readFile);
+    fseek(readFile, 0L, SEEK_SET);
 
-    contents = malloc(fileSize);
+    dataFromFile = malloc(fileSize);
 
-    size_t size = fread(contents, 1, fileSize, stream);
-    contents[size] = 0;
+    size_t size = fread(dataFromFile, 1, fileSize, readFile);
+    dataFromFile[size] = 0;
 
-    printf("%s\n", contents);
+    printf("%s\n", dataFromFile);
 
-    /*
-    FILE *a = fopen("abc.txt", "w");
-    fwrite(contents, fileSize, 1, a);
-    */
-
-    fclose(stream);
-
-    /*
-    stream = fopen(argv[2], "rb");
-    while(fgetc(stream) != EOF){
-        fileSize++;
-    }
-    contents = malloc(fileSize);
-    w
-    size_t size = fread(contents, 1, fileSize, stream);
-    contents[fileSize] = 0;
-    printf("s\n", contents);
-    fclose(stream);
-    */
-
-/*
-    unsigned char *ciphertext = malloc(sizeof(int) * strlen(argv[2]));
-    
-    //new for convert
-    unsigned char *newVal = (malloc(sizeof(int) * (strlen(argv[2]) / 2)));
-
-    //added
-    unsigned char S[N];
-    unsigned char *plaintext = malloc(sizeof(int) * strlen(argv[2]));
-
-    lengthOfStr = strlen(argv[2]);
-    */
-
-
-    
+    fclose(readFile);
 
     unsigned char *ciphertext = malloc(sizeof(int) * fileSize);
     unsigned char *newVal = malloc(sizeof(int) * fileSize);
@@ -201,12 +151,12 @@ int main(int argc, char *argv[]) {
 
     if(argc >= 4){
         printLen = fileSize;
-        RC4(argv[1], contents, ciphertext, S);
+        RC4(argv[1], dataFromFile, ciphertext, S);
         outputStyle =  1;
     }
     else{
         printLen = fileSize;
-        RC4(argv[1], contents, ciphertext, S);
+        RC4(argv[1], dataFromFile, ciphertext, S);
         outputStyle = 0;
     }
     
@@ -224,17 +174,15 @@ int main(int argc, char *argv[]) {
         }
     }
     printf("\n");
-    printf("%d", len);
-    printf("\n");
     
     //Output to file
     //Tweak
     FILE *target;
-    target = fopen("encryptedFile.txt", "w");
+    target = fopen("encryptedFile", "wb");
     fseek(target, 0, SEEK_CUR);
     //fputs(ciphertext, target);
     fwrite(ciphertext, fileSize, 1, target);
-    fclose(target);
+    //fclose(target);
     
      
     printf("\n");
