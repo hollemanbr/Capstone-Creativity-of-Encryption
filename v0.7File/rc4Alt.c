@@ -140,6 +140,28 @@ int main(int argc, char *argv[]) {
 
     fclose(readFile);
 
+    FILE *readKey;
+    unsigned char *dataFromKey;
+    int keySizeA = 0;
+    int keySize = 0;
+
+    readKey = fopen(argv[1], "rb");
+
+    while(fgetc(readKey) != EOF){
+        keySize++;
+    }
+
+    fseek(readKey, 0L, SEEK_END);
+    keySize = ftell(readKey);
+    fseek(readKey, 0L, SEEK_SET);
+
+    dataFromKey = malloc(keySize);
+
+    size_t sizeK = fread(dataFromKey, 1, keySize, readKey);
+    dataFromKey[sizeK] = 0;
+
+    fclose(readKey);
+
     unsigned char *ciphertext = malloc(sizeof(int) * fileSize);
     unsigned char *newVal = malloc(sizeof(int) * fileSize);
     unsigned char *plaintext = malloc(sizeof(int) * fileSize);

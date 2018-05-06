@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
     size_t size = fread(dataFromFile, 1, fileSize, readFile);
     dataFromFile[size] = 0;
 
-    //printf("%s\n", dataFromFile);
+    printf("%s\n", dataFromFile);
 
     fclose(readFile);
 
@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
     int len;
     printf("Key: %s\n", argv[1]);
     printf("Input Text:  %s\n", argv[2]);
-    /*
+    
     printf("Output Text: ");
     for(i = 0, len = printLen; i < len; i++) {
         if(outputStyle == 0) {
@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
             printf("%c", ciphertext[i]);
         }
     }
-    */
+    
     printf("\n");
     
     //Output to file
