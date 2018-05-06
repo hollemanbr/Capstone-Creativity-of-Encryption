@@ -1,1 +1,5 @@
-Plaintext
+This is a plaintext file.
+
+It will be used as an example of decryption or even encryption.
+
+123456

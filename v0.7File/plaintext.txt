@@ -1,1 +1,3 @@
-Plaintext
+This will test using two files.
+
+One for a key and one for the file.

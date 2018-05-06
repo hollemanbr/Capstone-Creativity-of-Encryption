@@ -7,3 +7,4 @@ echo
 read -p 'Decrypt?(y for yes blank for no) ' decrypt
 echo
 ./rc4Test $key $filevar $decrypt
+vim rc4File
